@@ -16,7 +16,7 @@ const style2 ={
               borderRadius: "12px",
               boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
               textAlign: "center",
-              padding: "10px",
+              padding: "5px",
               width:"500px"
             }
 const cardStyle ={
@@ -46,7 +46,7 @@ const style1 ={
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await fetch("https://fakestoreapi.com/products"); // external API
+      const res = await fetch("https://fakestoreapi.com/products");
       const data: Product[] = await res.json();
 
       const shuffled = [...data].sort(() => 0.5 - Math.random());

@@ -1,41 +1,38 @@
 "use client";
 
-const createCart = async (cartData: any) => {
-  const res = await fetch("https://fakestoreapi.com/carts", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(cartData),
-  });
-
-  return res.json();
-};
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function AddCart() {
-  const handleCreate = async () => {
-    const newCart = {
-      userId: 2,
-      products: [
-        {
-          id: 1,
-          title: "Phone",
-          price: 500,
-          description: "Smart phone",
-          category: "electronics",
-          image: "http://example.com/image.jpg",
-        },
-      ],
-    };
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const productId = 1
 
-    const result = await createCart(newCart);
-
-    console.log(result);
+  const handleAdd = () => {
+    setLoading(true);
+    try {
+      router.push(`/cart/card?id=${productId}`);
+    } catch (error) {
+      console.error("Error navigating to cart:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
-      <button onClick={handleCreate}>Add Cart</button>
+      <button
+        onClick={handleAdd}
+        style={{
+          padding: "10px 20px",
+          borderRadius: "6px",
+          border: "none",
+          cursor: "pointer",
+        }}
+        disabled={loading}
+      >
+        {loading ? "Loading..." : "Add to Cart"}
+      </button>
     </div>
   );
 }
