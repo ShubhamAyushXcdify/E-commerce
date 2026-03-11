@@ -16,7 +16,18 @@ interface Product {
 }
 
 export default function ShopPage() {
-
+    <Link href="/shop/add">
+        <button style={{
+            marginBottom: "20px",
+            padding: "10px 16px",
+            background: "#2874f0",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px"
+            }}>
+            Add Product
+        </button>
+    </Link>
   const [products, setProducts] = useState<Product[]>([])
   const [search, setSearch] = useState("")
   const [category, setCategory] = useState("all")

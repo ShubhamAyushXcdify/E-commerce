@@ -1,5 +1,5 @@
 "use client"
-
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 
@@ -32,6 +32,16 @@ export default function SingleProductPage() {
   if (!product) {
     return <h2 style={{ padding: "20px" }}>Loading product...</h2>
   }
+  //Delete Product Function
+  const deleteProduct = async () => {
+
+  await fetch(`https://fakestoreapi.com/products/${product.id}`, {
+    method: "DELETE"
+  })
+
+  alert("Product Deleted")
+
+}
 
   return (
 
@@ -66,17 +76,42 @@ export default function SingleProductPage() {
             {product.description}
           </p>
 
-          <button style={{
-            marginTop: "20px",
-            padding: "10px 18px",
-            border: "none",
-            background: "#2874f0",
-            color: "#fff",
-            borderRadius: "5px",
-            cursor: "pointer"
-          }}>
-            Add to Cart
-          </button>
+            <button style={{
+                marginTop: "20px",
+                padding: "10px 18px",
+                border: "none",
+                background: "#2874f0",
+                color: "#fff",
+                borderRadius: "5px",
+                cursor: "pointer"
+                }}>
+                Add to Cart
+            </button>
+            <button
+                onClick={deleteProduct}
+                    style={{
+                    marginLeft: "10px",
+                    padding: "10px 16px",
+                    background: "red",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "5px"
+                    }}>
+                Delete Product
+            </button>
+        <Link href={`/shop/edit/${product.id}`}>
+            <button style={{
+                marginLeft: "10px",
+                padding: "10px 16px",
+                background: "#f39c12",
+                color: "#fff",
+                border: "none",
+                borderRadius: "5px"
+            }}>
+            Edit Product
+            </button>
+        </Link>
+          
 
         </div>
 
