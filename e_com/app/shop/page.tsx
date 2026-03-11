@@ -1,5 +1,5 @@
 "use client"
-
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
 interface Product {
@@ -130,17 +130,18 @@ export default function ShopPage() {
       <div style={productGrid}>
 
         {filteredProducts.map(product => (
-
-          <div key={product.id} style={productCard}>
-
+        //fetch(`https://fakestoreapi.com/products/${product.id}`)
+            <div key={product.id} style={productCard}>
+            <Link href={`/shop/${product.id}`}>
             <img
               src={product.image}
               style={productImage}
-            />
-
+            /></Link>
+        <Link href={`/shop/${product.id}`}>
             <h3 style={productTitle}>
               {product.title.substring(0, 45)}...
             </h3>
+            </Link>
 
             <p style={priceStyle}>
               ${product.price}
