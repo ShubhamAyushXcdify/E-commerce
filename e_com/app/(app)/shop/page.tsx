@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import AddCart from "../cart/addCart"
 
 interface Product {
   id: number
@@ -150,12 +151,13 @@ export default function ShopPage() {
               ⭐ {product.rating?.rate} | {product.rating?.count} reviews
             </p>
 
-            <button
+            {/* <button
               style={cartButton}
               onClick={() => alert("Cart feature coming soon")}
             >
               Add to Cart
-            </button>
+            </button> */}
+            <AddCart productId={product.id}></AddCart>
 
           </div>
 

@@ -1,4 +1,9 @@
-import ProductSlideshow from "./home"
+// // username: mor_2314
+// // password: 83r5^_
+
+import Login from "../(auth)/login/page"
+import Navbar from "@/components/nav";
+import ProductSlideshow from "../home";
 const style = {
   
     fontFamily: "'Arial', sans-serif",
@@ -22,4 +27,7 @@ export default function Home() {
 </h1>
     <ProductSlideshow></ProductSlideshow>
     </main>)
+// return <Login></Login>
 }
+
+

@@ -19,16 +19,19 @@ export default function CartPage() {
   const [product, setProduct] = useState<CartProduct | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const idParam = searchParams.get("id");
+
   useEffect(() => {
-    const idParam = searchParams.get("id"); // fetch product by ID
     if (!idParam) return;
 
     const fetchProduct = async () => {
       setLoading(true);
+
       try {
         const res = await fetch(`https://fakestoreapi.com/products/${idParam}`);
         const data = await res.json();
-        setProduct({ ...data, quantity: 1 }); // default quantity
+
+        setProduct({ ...data, quantity: 1 });
       } catch (error) {
         console.error("Error fetching product:", error);
       } finally {
@@ -37,7 +40,7 @@ export default function CartPage() {
     };
 
     fetchProduct();
-  }, [searchParams]);
+  }, [idParam]);
 
   if (loading) {
     return <p className="text-center mt-20 text-gray-600">Loading product...</p>;
@@ -97,22 +100,22 @@ export default function CartPage() {
       </div>
 
       <style jsx>{`
-  .product-image-wrapper {
-    width: 400px;   /* slightly bigger */
-    height:300px;  /* slightly bigger */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+        .product-image-wrapper {
+          width: 400px;
+          height: 300px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
 
-  .product-image {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: 0.5rem;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-  }
-`}</style>
+        .product-image {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+          border-radius: 0.5rem;
+          box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+        }
+      `}</style>
     </div>
   );
 }

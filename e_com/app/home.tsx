@@ -31,7 +31,7 @@ const cardStyle ={
               }
 
 
-export default function ProductCarousel() {
+export default function ProductSlideshow() {
   const [products, setProducts] = useState<Product[]>([]);
   const [current, setCurrent] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);

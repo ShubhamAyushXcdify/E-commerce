@@ -1,5 +1,8 @@
-import Link from "next/link"
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { FiShoppingCart } from "react-icons/fi";
+import { FaCircleUser } from "react-icons/fa6";
 
 
 const linkStyle = { color: "white", textDecoration: "none" };
@@ -24,14 +27,16 @@ export default function Navbar(){
     <nav
       style={navStyle}
     >
-      <h2 style={{ margin: 0 }}>ShopNow</h2>
+      <h2 style={{ margin: 0 }}><Link href={"/"} style={linkStyle}  >ShopNow</Link></h2>
 
       <ul style={link}>
         <li><Link style={linkStyle} href={"/"}>HOME</Link></li>
         <li><Link style={linkStyle}  href={"/shop"}>SHOP</Link></li>
         <li><Link style={linkStyle}  href={"/cart"}> <FiShoppingCart size={22} color="white"/></Link></li>
+        <li><Link style={linkStyle}  href={"/cart"}><FaCircleUser size={22} color="white"/></Link></li>
       </ul>
     </nav>
 
   </div>
   )}
+

@@ -12,7 +12,7 @@ export default async function Cart(){
          {/* <UpdateCart></UpdateCart> */}
          <UserProduct></UserProduct>
          <br></br>
-         <AddCart></AddCart>
+         {/* <AddCart productId={8} /> */}
     </div>
     )
 }
