@@ -17,24 +17,161 @@ export default function UserProfile() {
 
   }, [id])
 
-  if(!user){
-    return <h2>Loading...</h2>
+  if (!user) {
+    return <h2 style={{ padding: "30px" }}>Loading user...</h2>
   }
 
-  return(
+  return (
 
-    <div style={{padding:"30px"}}>
+    <div style={container}>
 
-      <h2>
-        {user.name.firstname} {user.name.lastname}
-      </h2>
+      <h1 style={title}>User Profile</h1>
 
-      <p>Email: {user.email}</p>
+      <div style={profileWrapper}>
 
-      <p>Phone: {user.phone}</p>
+        {/* LEFT PROFILE SECTION */}
 
-      <p>City: {user.address.city}</p>
+        <div style={leftSection}>
+
+          <div style={avatar}>
+            {user.name.firstname.charAt(0)}
+          </div>
+
+      <h3>
+           {user.name.firstname.charAt(0).toUpperCase() + user.name.firstname.slice(1)}{" "}
+           {user.name.lastname.charAt(0).toUpperCase() + user.name.lastname.slice(1)}
+      </h3>
+
+          <p style={{ color: "#777" }}>{user.email}</p>
+
+        </div>
+
+
+        {/* RIGHT PROFILE DETAILS */}
+
+        <div style={rightSection}>
+
+          <h3 style={{ marginBottom: "20px" }}>
+            Profile Information
+          </h3>
+
+          <div style={grid}>
+
+            <div>
+              <label>First Name</label>
+            <input
+            value={
+              user.name.firstname.charAt(0).toUpperCase() +
+              user.name.firstname.slice(1)
+            }
+            readOnly
+            style={input}/>  
+            </div>
+
+            <div>
+              <label>Last Name</label>
+            <input
+            value={
+              user.name.lastname.charAt(0).toUpperCase() +
+              user.name.lastname.slice(1)
+            }
+            readOnly
+            style={input}
+          />
+            </div>
+
+            <div>
+              <label>Username</label>
+              <input value={user.username} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>Phone</label>
+              <input value={user.phone} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>City</label>
+              <input value={user.address.city} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>Street</label>
+              <input value={user.address.street} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>Zipcode</label>
+              <input value={user.address.zipcode} readOnly style={input}/>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
+
   )
+}
+
+
+
+/* ---------- STYLES ---------- */
+
+const container = {
+  padding: "40px",
+  background: "#f5f6fa",
+  minHeight: "100vh"
+}
+
+const title = {
+  marginBottom: "25px"
+}
+
+const profileWrapper = {
+  display: "flex",
+  gap: "40px",
+  background: "#fff",
+  padding: "30px",
+  borderRadius: "10px",
+  boxShadow: "0 3px 12px rgba(0,0,0,0.1)"
+}
+
+const leftSection = {
+  width: "250px",
+  textAlign: "center" as const
+}
+
+const avatar = {
+  width: "90px",
+  height: "90px",
+  borderRadius: "50%",
+  background: "#2874f0",
+  color: "#fff",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "34px",
+  fontWeight: "bold",
+  margin: "0 auto 15px"
+}
+
+const rightSection = {
+  flex: 1
+}
+
+const grid = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "20px"
+}
+
+const input = {
+  width: "100%",
+  padding: "8px",
+  marginTop: "5px",
+  border: "1px solid #ccc",
+  borderRadius: "5px"
 }
