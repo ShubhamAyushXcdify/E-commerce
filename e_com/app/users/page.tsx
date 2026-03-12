@@ -42,6 +42,15 @@ export default function UsersPage() {
       })
 
   }, [])
+//Delete User Function
+    const deleteUser = async (id:number) => {
+
+    await fetch(`https://fakestoreapi.com/users/${id}`,{
+        method:"DELETE"
+    })
+
+        setUsers(users.filter(user => user.id !== id))
+    }
 
   /* FILTER USERS */
 
@@ -73,6 +82,11 @@ export default function UsersPage() {
       <p style={count}>
         Total Customers: {filteredUsers.length}
       </p>
+        <Link href="/users/add">
+            <button style={{...button, marginBottom:"20px"}}>
+                Add Customer
+            </button>
+        </Link>
 
       {/* SEARCH */}
 
@@ -127,6 +141,10 @@ export default function UsersPage() {
                   View Profile
                 </button>
               </Link>
+                <button style={{...button, background:"red"}}
+                    onClick={()=>deleteUser(user.id)}>
+                    Delete
+                </button>
 
             </div>
 
