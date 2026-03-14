@@ -1,42 +1,47 @@
 "use client";
-import { useEffect, useState } from "react";
+
 import Link from "next/link";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaCircleUser } from "react-icons/fa6";
 
+export default function Navbar() {
+  return (
+    <nav className="flex justify-between items-center px-8 py-4 bg-gray-800 text-white">
 
-const linkStyle = { color: "white", textDecoration: "none" };
-const link = {
-          display: "flex",
-          listStyle: "none",
-          gap: "20px",
-          margin: 0,
-          padding: 0,
-        }
-const navStyle ={
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "15px 30px",
-        backgroundColor: "#333",
-        color: "white",
-      }
-      
-export default function Navbar(){
-    return(<div>
-    <nav
-      style={navStyle}
-    >
-      <h2 style={{ margin: 0 }}><Link href={"/"} style={linkStyle}  >ShopNow</Link></h2>
+      <h2 className="text-xl font-semibold m-0">
+        <Link href="/" className="text-white no-underline">
+          ShopNow
+        </Link>
+      </h2>
 
-      <ul style={link}>
-        <li><Link style={linkStyle} href={"/"}>HOME</Link></li>
-        <li><Link style={linkStyle}  href={"/shop"}>SHOP</Link></li>
-        <li><Link style={linkStyle}  href={"/cart"}> <FiShoppingCart size={22} color="white"/></Link></li>
-        <li><Link style={linkStyle}  href={"/cart"}><FaCircleUser size={22} color="white"/></Link></li>
+      <ul className="flex gap-5 list-none m-0 p-0 items-center">
+
+        <li>
+          <Link href="/" className="text-white hover:text-gray-300">
+            HOME
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/shop" className="text-white hover:text-gray-300">
+            SHOP
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/cart" className="text-white hover:text-gray-300">
+            <FiShoppingCart size={22} />
+          </Link>
+        </li>
+
+        <li>
+          <Link href="/users" className="text-white hover:text-gray-300">
+            <FaCircleUser size={22} />
+          </Link>
+        </li>
+
       </ul>
+
     </nav>
-
-  </div>
-  )}
-
+  );
+}

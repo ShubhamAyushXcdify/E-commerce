@@ -1,33 +1,24 @@
-// // username: mor_2314
-// // password: 83r5^_
-
-import Login from "../(auth)/login/page"
-import Navbar from "@/components/nav";
-import ProductSlideshow from "../home";
-const style = {
-  
-    fontFamily: "'Arial', sans-serif",
-    fontSize: "2.8rem",       
-    fontWeight: "700",       
-    textAlign: "center",      
-    lineHeight: "1.3",        
-    color: "#111",            
-    marginTop: "60px",
-    marginBottom: "40px",
-  }
+import ProductSlideshow from "../home"
 
 export default function Home() {
-  return (<main>
-    <h1 style={style}>
-  Welcome to <i style={{color:"#0011ff"}}>ShopNow</i>
-  <br />
-  <span style={{ fontWeight: "400", fontSize: "1.5rem", color: "#555" }}>
-    Discover Your Next Favorite Thing
-  </span>
-</h1>
-    <ProductSlideshow></ProductSlideshow>
-    </main>)
-// return <Login></Login>
+  return (
+    <main>
+
+      <h1 className="font-sans text-[2.8rem] font-bold text-center leading-snug text-gray-900 mt-[60px] mb-[40px]">
+
+        Welcome to 
+        <i className="text-blue-700"> ShopNow </i>
+
+        <br />
+
+        <span className="font-normal text-[1.5rem] text-gray-500">
+          Discover Your Next Favorite Thing
+        </span>
+
+      </h1>
+
+      <ProductSlideshow />
+
+    </main>
+  )
 }
-
-

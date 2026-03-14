@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/nav";
+import "./../globals.css";
 
 export default function AppLayout({
   children,

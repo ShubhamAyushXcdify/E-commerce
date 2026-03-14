@@ -51,28 +51,42 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-start justify-center py-10 px-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start py-10 px-4">
+
+     
+      <div className="mb-6 bg-green-100 text-green-700 px-4 py-2 rounded-lg font-medium shadow">
+        ✅ Product added to cart successfully
+      </div>
+
       <div className="bg-white rounded-2xl shadow-xl max-w-4xl w-full overflow-hidden flex flex-col md:flex-row">
 
-        {/* Product Image */}
-        <div className="md:w-5/12 bg-gray-50 p-4 md:p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
-          <div className="product-image-wrapper">
+        
+        <div className="md:w-5/12 bg-gray-50 p-6 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
+
+          <div className="w-[400px] h-[300px] flex items-center justify-center">
+
             <img
               src={product.image}
               alt={product.title}
-              className="product-image"
+              className="max-w-full max-h-full object-contain rounded-lg shadow"
             />
+
           </div>
+
         </div>
 
-        {/* Product Info */}
-        <div className="md:w-7/12 p-4 md:p-6 flex flex-col justify-between">
+       
+        <div className="md:w-7/12 p-6 flex flex-col justify-between">
+
           <div>
+
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               {product.title}
             </h1>
 
-            <p className="text-sm text-gray-500 mb-1">{product.category}</p>
+            <p className="text-sm text-gray-500 mb-1">
+              {product.category}
+            </p>
 
             <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
               ${product.price.toFixed(2)}
@@ -85,37 +99,20 @@ export default function CartPage() {
             <p className="text-gray-600 leading-relaxed mb-4">
               {product.description}
             </p>
+
           </div>
 
-          <div>
-            <button
-              onClick={() => router.push("/shop")}
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 md:px-8 md:py-3 rounded-xl font-medium transition-colors shadow-sm w-full sm:w-auto"
-            >
-              Continue Shopping
-            </button>
-          </div>
+          <button
+            onClick={() => router.push("/shop")}
+            className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-medium transition shadow-sm w-full sm:w-auto"
+          >
+            Continue Shopping
+          </button>
+
         </div>
 
       </div>
 
-      <style jsx>{`
-        .product-image-wrapper {
-          width: 400px;
-          height: 300px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .product-image {
-          max-width: 100%;
-          max-height: 100%;
-          object-fit: contain;
-          border-radius: 0.5rem;
-          box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-        }
-      `}</style>
     </div>
   );
 }

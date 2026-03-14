@@ -22,12 +22,7 @@ export default function AddCart({ productId }: { productId: number }) {
     <div>
       <button
         onClick={handleAdd}
-        style={{
-          padding: "10px 20px",
-          borderRadius: "6px",
-          border: "none",
-          cursor: "pointer",
-        }}
+        className="px-5 py-2 rounded-md border-none cursor-pointer bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-50"
         disabled={loading}
       >
         {loading ? "Loading..." : "Add to Cart"}

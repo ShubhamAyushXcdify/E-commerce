@@ -1,225 +1,193 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Link from "next/link"
 
-interface Address {
-  city: string
-  street: string
-  number: number
-  zipcode: string
-}
-
-interface Name {
-  firstname: string
-  lastname: string
-}
-
-interface User {
+type User = {
   id: number
   email: string
   username: string
   phone: string
-  name: Name
-  address: Address
+  name: {
+    firstname: string
+    lastname: string
+  }
+  address: {
+    city: string
+    street: string
+    zipcode: string
+  }
 }
 
-export default function UsersPage() {
+export default function UserProfile() {
 
-  const [users, setUsers] = useState<User[]>([])
-  const [search, setSearch] = useState("")
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(null)
+  const [id, setUserId] = useState<number | null>(null)
 
-  /* FETCH USERS */
+  
+  useEffect(() => {
+    const storedId = sessionStorage.getItem("userId")
 
+    if (storedId) {
+      const parsedId = Number(storedId)
+      setUserId(parsedId)
+      console.log("UserId:", parsedId)
+    }
+  }, [])
+
+  
   useEffect(() => {
 
-    fetch("https://fakestoreapi.com/users")
+    if (!id) return
+
+    fetch(`https://fakestoreapi.com/users/${id}`)
       .then(res => res.json())
-      .then(data => {
-        setUsers(data)
-        setLoading(false)
-      })
+      .then(data => setUser(data))
 
-  }, [])
-//Delete User Function
-    const deleteUser = async (id:number) => {
+  }, [id])
 
-    await fetch(`https://fakestoreapi.com/users/${id}`,{
-        method:"DELETE"
-    })
-
-        setUsers(users.filter(user => user.id !== id))
-    }
-
-  /* FILTER USERS */
-
-  const filteredUsers = users.filter(user => {
-
-    const fullName =
-      `${user.name.firstname} ${user.name.lastname}`.toLowerCase()
-
-    return fullName.includes(search.toLowerCase())
-
-  })
-
-  /* LOADING STATE */
-
-  if (loading) {
-    return (
-      <div style={{ padding: "30px" }}>
-        <h2>Loading customers...</h2>
-      </div>
-    )
+  if (!user) {
+    return <h2 style={{ padding: "30px" }}>Loading user...</h2>
   }
 
   return (
-
     <div style={container}>
 
-      <h1 style={title}>Customers</h1>
+      <h1 style={title}>User Profile</h1>
 
-      <p style={count}>
-        Total Customers: {filteredUsers.length}
-      </p>
-        <Link href="/users/add">
-            <button style={{...button, marginBottom:"20px"}}>
-                Add Customer
-            </button>
-        </Link>
+      <div style={profileWrapper}>
 
-      {/* SEARCH */}
+        <div style={leftSection}>
 
-      <input
-        type="text"
-        placeholder="Search customers..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={searchInput}
-      />
+          <div style={avatar}>
+            {user.name.firstname.charAt(0)}
+          </div>
 
-      {/* USERS GRID */}
+          <h3>
+            {user.name.firstname.charAt(0).toUpperCase() + user.name.firstname.slice(1)}{" "}
+            {user.name.lastname.charAt(0).toUpperCase() + user.name.lastname.slice(1)}
+          </h3>
 
-      <div style={grid}>
+          <p style={{ color: "#777" }}>{user.email}</p>
 
-        {filteredUsers.length === 0 ? (
+        </div>
 
-          <p>No customers found.</p>
+       
 
-        ) : (
+        <div style={rightSection}>
 
-          filteredUsers.map(user => (
+          <h3 style={{ marginBottom: "20px" }}>
+            Profile Information
+          </h3>
 
-            <div key={user.id} style={card}>
+          <div style={grid}>
 
-              <div style={avatar}>
-                {user.name.firstname.charAt(0)}
-              </div>
-
-              <h3>
-                {user.name.firstname} {user.name.lastname}
-              </h3>
-
-              <p>
-                <b>Email:</b> {user.email}
-              </p>
-
-              <p>
-                <b>Phone:</b> {user.phone}
-              </p>
-
-              <p>
-                <b>City:</b> {user.address.city}
-              </p>
-
-              <p>
-                <b>Zipcode:</b> {user.address.zipcode}
-              </p>
-
-              <Link href={`/users/${user.id}`}>
-                <button style={button}>
-                  View Profile
-                </button>
-              </Link>
-                <button style={{...button, background:"red"}}
-                    onClick={()=>deleteUser(user.id)}>
-                    Delete
-                </button>
-
+            <div>
+              <label>First Name</label>
+              <input
+                value={user.name.firstname}
+                readOnly
+                style={input}
+              />
             </div>
 
-          ))
+            <div>
+              <label>Last Name</label>
+              <input
+                value={user.name.lastname}
+                readOnly
+                style={input}
+              />
+            </div>
 
-        )}
+            <div>
+              <label>Username</label>
+              <input value={user.username} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>Phone</label>
+              <input value={user.phone} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>City</label>
+              <input value={user.address.city} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>Street</label>
+              <input value={user.address.street} readOnly style={input}/>
+            </div>
+
+            <div>
+              <label>Zipcode</label>
+              <input value={user.address.zipcode} readOnly style={input}/>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
     </div>
-
   )
 }
 
-/* ---------- STYLES ---------- */
+/* STYLES */
 
 const container = {
-  padding: "25px",
-  background: "#f6f7fb",
+  padding: "40px",
+  background: "#f5f6fa",
   minHeight: "100vh"
 }
 
 const title = {
-  marginBottom: "5px"
-}
-
-const count = {
-  marginBottom: "20px",
-  color: "#555"
-}
-
-const searchInput = {
-  padding: "10px",
-  width: "300px",
-  borderRadius: "6px",
-  border: "1px solid #ccc",
   marginBottom: "25px"
 }
 
-const grid = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fill,minmax(240px,1fr))",
-  gap: "20px"
+const profileWrapper = {
+  display: "flex",
+  gap: "40px",
+  background: "#fff",
+  padding: "30px",
+  borderRadius: "10px",
+  boxShadow: "0 3px 12px rgba(0,0,0,0.1)"
 }
 
-const card = {
-  background: "#fff",
-  padding: "18px",
-  borderRadius: "10px",
-  boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
-  textAlign: "center" as const,
-  transition: "all 0.2s ease",
-  cursor: "pointer"
+const leftSection = {
+  width: "250px",
+  textAlign: "center" as const
 }
 
 const avatar = {
-  width: "50px",
-  height: "50px",
+  width: "90px",
+  height: "90px",
   borderRadius: "50%",
   background: "#2874f0",
   color: "#fff",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  fontSize: "34px",
   fontWeight: "bold",
-  fontSize: "18px",
-  margin: "0 auto 10px"
+  margin: "0 auto 15px"
 }
 
-const button = {
-  marginTop: "12px",
-  padding: "8px 14px",
-  border: "none",
-  background: "#2874f0",
-  color: "#fff",
-  borderRadius: "5px",
-  cursor: "pointer"
+const rightSection = {
+  flex: 1
+}
+
+const grid = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: "20px"
+}
+
+const input = {
+  width: "100%",
+  padding: "8px",
+  marginTop: "5px",
+  border: "1px solid #ccc",
+  borderRadius: "5px"
 }

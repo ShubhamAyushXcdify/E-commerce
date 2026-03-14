@@ -10,39 +10,14 @@ type Product = {
   image: string;
 };
 
-const style2 ={
-              flex: "0 0 500px",
-              background: "#fff",
-              borderRadius: "12px",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-              textAlign: "center",
-              padding: "5px",
-              width:"500px"
-            }
-const cardStyle ={
-                height: "200px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "#f7f7f7",
-                borderRadius: "10px",
-                padding: "10px",
-                
-              }
-
-
 export default function ProductSlideshow() {
   const [products, setProducts] = useState<Product[]>([]);
   const [current, setCurrent] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-const style1 ={
-          display: "flex",
-          gap: "20px",
-          transform: `translateX(-${current * (250 + 20)}px)`,
-          transition: "transform 0.5s ease",
-        }
-
+  const sliderStyle = {
+    transform: `translateX(-${current * (250 + 20)}px)`
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -56,7 +31,6 @@ const style1 ={
     fetchProducts();
   }, []);
 
-
   useEffect(() => {
     if (products.length === 0) return;
 
@@ -67,28 +41,54 @@ const style1 ={
     return () => clearInterval(interval);
   }, [products]);
 
-  if (products.length === 0) return <p style={{ textAlign: "center" }}>Loading...</p>;
+  if (products.length === 0)
+    return <p className="text-center">Loading...</p>;
 
   return (
-    <div style={{ overflow: "hidden", width: "100%", maxWidth: "1500px", margin: "40px auto" }}>
-        
-      <div ref={containerRef} style={style1} >
+    <div className="overflow-hidden w-full max-w-[1500px] mx-auto my-10">
+
+      <div
+        ref={containerRef}
+        style={sliderStyle}
+        className="flex gap-5 transition-transform duration-500 ease-in-out"
+      >
+
         {products.map((product) => (
-          <div key={product.id} style={style2}>
-           <Link href={`/shop/${product.id}`} style={{textDecoration: "none", color: "inherit"}}> <div style={cardStyle} >
-              <img src={product.image} alt={product.title} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
-            </div>
-            <h3 style={{ fontSize: "16px", marginTop: "10px", height: "48px", overflow: "hidden" }}>
-              {product.title}
-            </h3>
-            <p style={{ color: "green", fontWeight: "bold" }}>${product.price}</p>
+          <div
+            key={product.id}
+            className="flex-none w-[500px] bg-white rounded-xl shadow-md text-center p-2"
+          >
+
+            <Link
+              href={`/shop/${product.id}`}
+              className="no-underline text-inherit"
+            >
+
+              <div className="h-[200px] flex items-center justify-center bg-gray-100 rounded-lg p-2">
+
+                <img
+                  src={product.image}
+                  alt={product.title}
+                  className="max-w-full max-h-full object-contain"
+                />
+
+              </div>
+
+              <h3 className="text-base mt-2 h-[48px] overflow-hidden">
+                {product.title}
+              </h3>
+
+              <p className="text-green-600 font-bold">
+                ${product.price}
+              </p>
+
             </Link>
-          </div> 
-          
-          
+
+          </div>
         ))}
+
       </div>
-      
+
     </div>
   );
 }

@@ -11,7 +11,6 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  
   useEffect(() => {
     const token = sessionStorage.getItem("token");
     if (token) {
@@ -42,17 +41,16 @@ export default function Login() {
 
       const data = await response.json();
 
+      sessionStorage.setItem("token", data.token);
 
-sessionStorage.setItem("token", data.token);
+      const usersRes = await fetch("https://fakestoreapi.com/users");
+      const users = await usersRes.json();
 
-const usersRes = await fetch("https://fakestoreapi.com/users");
-const users = await usersRes.json();
+      const user = users.find((u: any) => u.username === username);
 
-const user = users.find((u: any) => u.username === username);
+      sessionStorage.setItem("userId", user.id);
 
-sessionStorage.setItem("userId", user.id);
-
-router.push("/");
+      router.push("/");
     } catch (err: any) {
       setError(err.message || "Login failed");
     } finally {
@@ -61,113 +59,64 @@ router.push("/");
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">Login</h1>
+    <div className="min-h-screen flex justify-center items-center bg-gray-100 font-sans">
 
-        <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label>Username</label>
+      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
+
+        <h1 className="text-center text-2xl font-bold text-gray-800 mb-6">
+          Login
+        </h1>
+
+        <form onSubmit={handleLogin} className="space-y-4">
+
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Username
+            </label>
+
             <input
               type="text"
               required
               placeholder="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-2.5 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
-          <div className="form-group">
-            <label>Password</label>
+          <div>
+            <label className="block text-sm text-gray-600 mb-1">
+              Password
+            </label>
+
             <input
               type="password"
               required
               placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-2.5 border border-gray-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
 
-          {error && <p className="error">{error}</p>}
+          {error && (
+            <p className="text-red-500 text-sm">
+              {error}
+            </p>
+          )}
 
-          <button type="submit" disabled={loading}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700 disabled:bg-gray-400"
+          >
             {loading ? "Logging in..." : "Login"}
           </button>
+
         </form>
+
       </div>
 
-      <style jsx>{`
-        * { box-sizing: border-box; }
-
-        .login-container {
-          min-height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: #f4f4f4;
-          font-family: Arial, sans-serif;
-        }
-
-        .login-card {
-          background: #fff;
-          padding: 30px 25px;
-          border-radius: 16px;
-          box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-          width: 100%;
-          max-width: 340px;
-        }
-
-        .login-title {
-          text-align: center;
-          font-size: 24px;
-          font-weight: bold;
-          color: #333;
-          margin-bottom: 24px;
-        }
-
-        .form-group {
-          margin-bottom: 16px;
-        }
-
-        .form-group label {
-          display: block;
-          font-size: 14px;
-          margin-bottom: 5px;
-          color: #555;
-        }
-
-        .form-group input {
-          width: 100%;
-          padding: 10px 12px;
-          border: 1px solid #ccc;
-          border-radius: 10px;
-          font-size: 14px;
-          outline: none;
-        }
-
-        .error {
-          color: red;
-          font-size: 13px;
-          margin-bottom: 8px;
-        }
-
-        button {
-          width: 100%;
-          padding: 12px;
-          border: none;
-          border-radius: 10px;
-          background-color: #7b5cff;
-          color: #fff;
-          font-size: 15px;
-          font-weight: bold;
-          cursor: pointer;
-        }
-
-        button:disabled {
-          background-color: #aaa;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 }

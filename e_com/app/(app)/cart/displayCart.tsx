@@ -12,31 +12,11 @@ type Product = {
   quantity?: number;
 };
 
-const style = {
-  display: "flex",
-  border: "1px solid #ddd",
-  borderRadius: "8px",
-  overflow: "hidden",
-  boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-  transition: "transform 0.2s",
-};
-
-const ButtonStyle = {
-  backgroundColor: "#ff0000",
-  color: "#ffffff",
-  padding: "10px 20px",
-  border: "none",
-  borderRadius: "6px",
-  cursor: "pointer",
-  fontSize: "16px",
-};
-
 export default function UserCartPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<number | null>(null);
 
-  // 🔹 Read userId from sessionStorage
   useEffect(() => {
     const id = sessionStorage.getItem("userId");
     if (id) {
@@ -44,10 +24,8 @@ export default function UserCartPage() {
     }
   }, []);
 
-  console.log("UserId:", userId);
-
   useEffect(() => {
-    if (!userId) return; // wait until userId is loaded
+    if (!userId) return;
 
     const fetchData = async () => {
       try {
@@ -88,47 +66,36 @@ export default function UserCartPage() {
     fetchData();
   }, [userId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (products.length === 0) return <p>No products found for user {userId}</p>;
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (products.length === 0)
+    return <p className="text-center mt-10">No products found for user {userId}</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>User {userId} Cart</h2>
+    <div className="p-5">
+      <h2 className="text-2xl font-semibold mb-6">Cart</h2>
 
-      <div
-        style={{
-          display: "grid",
-          gap: "20px",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        }}
-      >
+      <div className="grid gap-5 grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
         {products.map((product) => (
-          <div key={product.id} style={style}>
+          <div
+            key={product.id}
+            className="flex border border-gray-300 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition"
+          >
             <img
               src={product.image}
               alt={product.title}
-              style={{
-                width: "70px",
-                objectFit: "contain",
-                background: "#f9f9f9",
-                padding: "10px",
-              }}
+              className="w-[70px] object-contain bg-gray-100 p-2"
             />
 
-            <div style={{ padding: "15px", flex: 1 }}>
-              <h3 style={{ margin: "0 0 10px 0", fontSize: "16px" }}>
-                {product.title}
-              </h3>
+            <div className="p-4 flex-1">
+              <h3 className="text-sm font-medium mb-2">{product.title}</h3>
 
-              <p style={{ margin: "0 0 5px 0", color: "#555" }}>
+              <p className="text-gray-600 text-sm mb-1">
                 Category: {product.category}
               </p>
 
-              <p style={{ margin: "0 0 5px 0", fontWeight: "bold" }}>
-                ${product.price}
-              </p>
+              <p className="font-bold mb-1">${product.price}</p>
 
-              <p style={{ margin: "0 0 5px 0", color: "#777" }}>
+              <p className="text-gray-500 text-sm">
                 Quantity: {product.quantity}
               </p>
             </div>
@@ -136,9 +103,11 @@ export default function UserCartPage() {
         ))}
       </div>
 
-      <div style={{ marginTop: "30px", textAlign: "center" }}>
+      <div className="mt-8 text-center">
         <Link href="/shop">
-          <button style={ButtonStyle}>Shop More</button>
+          <button className="bg-red-500 text-white px-5 py-2 rounded-md text-base hover:bg-red-600 transition">
+            Shop More
+          </button>
         </Link>
       </div>
     </div>
