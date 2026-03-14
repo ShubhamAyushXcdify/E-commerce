@@ -1,3 +1,5 @@
+"use client";
+
 import ProductSlideshow from "../home"
 
 export default function Home() {
