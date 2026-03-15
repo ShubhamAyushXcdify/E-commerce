@@ -1,16 +1,17 @@
-import Navbar from "@/components/nav";
+import "./globals.css"
+import Navbar from "@/components/nav"
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-    <body>
-      <Navbar></Navbar>
+      <body>
+        <Navbar />
         {children}
       </body>
     </html>
-  );
+  )
 }
