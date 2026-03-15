@@ -1,16 +1,20 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function AddProductPage() {
 
-  const [title, setTitle] = useState("")
-  const [price, setPrice] = useState("")
-  const [description, setDescription] = useState("")
-  const [category, setCategory] = useState("")
-  const [image, setImage] = useState("")
+  const router = useRouter()
 
-  const handleSubmit = async (e: any) => {
+  const [title,setTitle] = useState("")
+  const [price,setPrice] = useState("")
+  const [description,setDescription] = useState("")
+  const [category,setCategory] = useState("")
+  const [image,setImage] = useState("")
+  const [message,setMessage] = useState("")
+
+  const handleSubmit = async (e:any) => {
 
     e.preventDefault()
 
@@ -22,92 +26,70 @@ export default function AddProductPage() {
       category
     }
 
-    const res = await fetch("https://fakestoreapi.com/products", {
-      method: "POST",
-      body: JSON.stringify(newProduct),
-      headers: {
-        "Content-Type": "application/json"
+    await fetch("https://fakestoreapi.com/products",{
+      method:"POST",
+      body:JSON.stringify(newProduct),
+      headers:{
+        "Content-Type":"application/json"
       }
     })
 
-    const data = await res.json()
+    setMessage("Product added successfully")
 
-    alert("Product Added Successfully")
-
-    console.log(data)
+    setTimeout(()=>{
+      router.push("/shop")
+    },1000)
 
   }
 
   return (
 
-    <div style={{ padding: "30px" }}>
+    <div className="p-10 flex justify-center">
 
-      <h1>Add Product</h1>
+      <div className="bg-white p-6 rounded shadow w-96">
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: "400px" }}>
-
-        <input
-          placeholder="Product Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          style={input}
-        />
-
-        <input
-          placeholder="Price"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          style={input}
-        />
-
-        <input
-          placeholder="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          style={input}
-        />
-
-        <input
-          placeholder="Image URL"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          style={input}
-        />
-
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          style={textarea}
-        />
-
-        <button style={button}>
+        <h1 className="text-xl font-semibold mb-4">
           Add Product
-        </button>
+        </h1>
 
-      </form>
+        {message && <p className="text-green-600 mb-3">{message}</p>}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+
+          <input placeholder="Title"
+            value={title}
+            onChange={(e)=>setTitle(e.target.value)}
+            className="border p-2 rounded"/>
+
+          <input placeholder="Price"
+            value={price}
+            onChange={(e)=>setPrice(e.target.value)}
+            className="border p-2 rounded"/>
+
+          <input placeholder="Category"
+            value={category}
+            onChange={(e)=>setCategory(e.target.value)}
+            className="border p-2 rounded"/>
+
+          <input placeholder="Image URL"
+            value={image}
+            onChange={(e)=>setImage(e.target.value)}
+            className="border p-2 rounded"/>
+
+          <textarea placeholder="Description"
+            value={description}
+            onChange={(e)=>setDescription(e.target.value)}
+            className="border p-2 rounded"/>
+
+          <button className="bg-blue-600 text-white py-2 rounded">
+            Add Product
+          </button>
+
+        </form>
+
+      </div>
 
     </div>
 
   )
-}
-
-const input = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: "10px"
-}
-
-const textarea = {
-  width: "100%",
-  padding: "10px",
-  marginBottom: "10px"
-}
-
-const button = {
-  padding: "10px 16px",
-  background: "#2874f0",
-  color: "#fff",
-  border: "none",
-  borderRadius: "5px"
 }

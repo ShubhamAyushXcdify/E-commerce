@@ -1,5 +1,5 @@
 "use client"
-import Link from "next/link"
+
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 
@@ -24,99 +24,56 @@ export default function SingleProductPage() {
   const [product, setProduct] = useState<Product | null>(null)
 
   useEffect(() => {
+
     fetch(`https://fakestoreapi.com/products/${id}`)
       .then(res => res.json())
       .then(data => setProduct(data))
+
   }, [id])
 
   if (!product) {
-    return <h2 style={{ padding: "20px" }}>Loading product...</h2>
+    return <h2 className="p-6">Loading product...</h2>
   }
-  //Delete Product Function
-  const deleteProduct = async () => {
-
-  await fetch(`https://fakestoreapi.com/products/${product.id}`, {
-    method: "DELETE"
-  })
-
-  alert("Product Deleted")
-
-}
 
   return (
 
-    <div style={{ padding: "30px" }}>
+    <div className="p-10 bg-gray-100 min-h-screen">
 
-      <div style={{
-        display: "flex",
-        gap: "40px",
-        background: "#fff",
-        padding: "20px",
-        borderRadius: "10px"
-      }}>
+      <div className="flex gap-10 bg-white p-6 rounded shadow">
 
         <img
           src={product.image}
-          style={{ width: "300px", height: "300px", objectFit: "contain" }}
+          alt={product.title}
+          className="w-80 h-80 object-contain"
         />
 
         <div>
 
-          <h2>{product.title}</h2>
+          <h2 className="text-2xl font-semibold">
+            {product.title}
+          </h2>
 
-          <p style={{ fontSize: "22px", color: "#388e3c" }}>
+          <p className="text-green-600 text-xl mt-2">
             ${product.price}
           </p>
 
-          <p>
+          <p className="text-gray-600 mt-2">
             ⭐ {product.rating.rate} ({product.rating.count} reviews)
           </p>
 
-          <p style={{ marginTop: "20px" }}>
+          <p className="mt-4 text-gray-700">
             {product.description}
           </p>
 
-            <button style={{
-                marginTop: "20px",
-                padding: "10px 18px",
-                border: "none",
-                background: "#2874f0",
-                color: "#fff",
-                borderRadius: "5px",
-                cursor: "pointer"
-                }}>
-                Add to Cart
-            </button>
-            <button
-                onClick={deleteProduct}
-                    style={{
-                    marginLeft: "10px",
-                    padding: "10px 16px",
-                    background: "red",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "5px"
-                    }}>
-                Delete Product
-            </button>
-        <Link href={`/shop/edit/${product.id}`}>
-            <button style={{
-                marginLeft: "10px",
-                padding: "10px 16px",
-                background: "#f39c12",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px"
-            }}>
-            Edit Product
-            </button>
-        </Link>
-          
+          <button className="bg-blue-600 text-white px-4 py-2 rounded mt-5">
+            Add to Cart
+          </button>
 
         </div>
 
       </div>
 
     </div>
+
   )
 }
